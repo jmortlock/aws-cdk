@@ -1873,6 +1873,12 @@ export class Bucket extends BucketBase {
       throw new Error("Cannot use 'noncurrent' rules on a nonversioned bucket");
     }
 
+    rule.transitions?.forEach((transition) => {
+      if (transition.transitionAfter === undefined && transition.transitionDate === undefined) {
+        throw new Error('One of transitionAFter or transitionDate needs to be defined');
+      }
+    });
+
     this.lifecycleRules.push(rule);
   }
 

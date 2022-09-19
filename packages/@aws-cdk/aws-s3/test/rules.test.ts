@@ -96,6 +96,24 @@ describe('rules', () => {
     });
   });
 
+  test('Bucket with invalid transition rule will fail', () => {
+    // GIVEN
+    const stack = new Stack();
+
+    // WHEN: Fail because no transition date or transition days are specified.
+    expect(() => {
+      new Bucket(stack, 'Bucket', {
+        lifecycleRules: [
+          {
+            transitions: [
+              { storageClass: StorageClass.GLACIER },
+            ],
+          },
+        ],
+      });
+    }).toThrow();
+  });
+
   test('Noncurrent rule on nonversioned bucket fails', () => {
     // GIVEN
     const stack = new Stack();
